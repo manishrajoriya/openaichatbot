@@ -15,7 +15,7 @@ export interface ChatGPTMessage {
  export interface OpenAIStreamPayload {
     model: string,
     messages: ChatGPTMessage[],
-    temprature: number,
+    temperature: number,
     top_p: number,
     frequency_penalty: number,
     presence_penalty: number,
@@ -34,7 +34,7 @@ export async function OpenAIStream(paylod: OpenAIStreamPayload){
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${process.env.OPENAI_API_KEY ?? ""}`
+            Authorization : `Bearer ${process.env.OPENAI_API_KEY ?? ""}`
         },
         body: JSON.stringify(paylod)
     })
@@ -50,10 +50,10 @@ export async function OpenAIStream(paylod: OpenAIStreamPayload){
                     }
                     try {
                         const json = JSON.parse(data)
-                        console.log("json", json);
+                        console.log("openai strem json", json);
                         
                         const text = json.choices[0].delta?.content || ""
-                        console.log("text", text);
+                        console.log("openai stream text", text);
                         
                         if (counter < 2 && (text.match(/\n/) || []).length) {
                             return                           
